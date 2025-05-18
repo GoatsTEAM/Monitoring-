@@ -51,9 +51,7 @@ services:
       - "3100:3100"
     volumes:
       - ./loki/config.yaml:/etc/loki/config.yaml:ro
-      - /opt/loki/data:/loki/chunks        # под chunks_directory
-      - /opt/loki/rules:/loki/rules        # под rules_directory
-      - /opt/loki/wal:/loki/wal            # WAL Loki будет сам класть в .wal рядом
+      - /opt/loki/data:/loki/chunks         # соответствует storage_config.filesystem.directory
     restart: unless-stopped
 
   promtail:
