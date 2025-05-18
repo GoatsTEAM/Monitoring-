@@ -38,6 +38,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=Sorokin  # поменяй на свой пароль
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning 
     ports:
       - "3000:3000"
     restart: unless-stopped
