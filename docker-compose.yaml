@@ -51,7 +51,8 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./loki/config.yaml:/etc/loki/local-config.yaml:ro
-      - loki_data:/loki 
+      - /opt/loki/data:/loki              # chunks / index / boltdb-cache
+      - /opt/loki/wal:/wal                # WAL-файлы
     restart: unless-stopped
 
   promtail:
@@ -69,3 +70,4 @@ volumes:
   prometheus_data:
   grafana_data:
   loki_data:
+  loki_wal:
