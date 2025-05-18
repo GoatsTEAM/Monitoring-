@@ -17,9 +17,9 @@ scrape_configs:
   - job_name: 'cadvisor'
     static_configs:
       - targets: ['cadvisor:8080']
-      
+
   # 4) Scrape Blackbox Exporter (метрики HTTP, TCP и ICMP)
   - job_name: 'fastapi_app'
     metrics_path: /metrics
     static_configs:
-      - targets: ['<IP_сервера>:80']
+      - targets: ['45.132.255.35:80']
