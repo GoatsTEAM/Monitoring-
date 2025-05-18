@@ -4,14 +4,20 @@ server:
   http_listen_port: 3100
   log_level: info
 
-storage_config:
+# ——— Настройка локального хранилища ———
+storage:
   filesystem:
-    directory: /loki/chunks
+    # где хранить сами чанки
+    chunks_directory: /loki/chunks
+    # где хранить правила для Ruler (даже если вы его не используете, поле нужно)
+    rules_directory:  /loki/rules
 
 schema_config:
   configs:
-    - from: 2023-01-01
-      store: filesystem
+    - from: "2023-01-01"
+      # boltdb-shipper умеет шипперить индекс в объектное хранилище
+      store: boltdb-shipper
+      # здесь filesystem разрешён — выбран boltdb-shipper + fs
       object_store: filesystem
       schema: v11
       index:
