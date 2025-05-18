@@ -46,12 +46,12 @@ services:
   loki:
     image: grafana/loki:2.8.2
     container_name: loki
+    command: -config.file=/etc/loki/config.yaml
     ports:
       - "3100:3100"
-    command: -config.file=/etc/loki/local-config.yaml
     volumes:
-      - ./loki/config.yaml:/etc/loki/local-config.yaml:ro
-      - /opt/loki/data:/loki              # chunks / index / boltdb-cache
+      - ./loki/config.yaml:/etc/loki/config.yaml:ro   # 👈 верный путь
+      - /opt/loki/data:/loki              # chunks / index
       - /opt/loki/wal:/wal                # WAL-файлы
     restart: unless-stopped
 
