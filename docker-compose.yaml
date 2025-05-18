@@ -10,6 +10,8 @@ services:
     ports:
       - "9090:9090"
     restart: unless-stopped
+    networks:
+      - monitoring
 
   node-exporter:
     image: prom/node-exporter:v1.7.0
@@ -30,6 +32,7 @@ services:
       - "8080:8080"
     restart: unless-stopped
 
+
   grafana:
     image: grafana/grafana:10.0.1
     container_name: grafana
@@ -42,6 +45,8 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
+    networks:
+      - monitoring
 
   loki:
     image: grafana/loki:2.8.2
@@ -53,6 +58,8 @@ services:
       - ./loki/config.yaml:/etc/loki/config.yaml:ro
       - /opt/loki/data:/loki/chunks         # соответствует storage_config.filesystem.directory
     restart: unless-stopped
+    networks:
+      - monitoring
 
   promtail:
     image: grafana/promtail:2.8.2
@@ -64,7 +71,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./promtail/config.yaml:/etc/promtail/config.yaml:ro   # ← вот это!
     restart: unless-stopped
-
+    networks:
+      - monitoring
+networks:
+  monitoring:
+    external: true
 volumes:
   prometheus_data:
   grafana_data:
