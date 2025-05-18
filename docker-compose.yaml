@@ -30,7 +30,11 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
       - "8080:8080"
+    networks:
+      - monitoring
     restart: unless-stopped
+
+
 
 
   grafana:
