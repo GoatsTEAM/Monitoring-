@@ -16,9 +16,10 @@ services:
   node-exporter:
     image: prom/node-exporter:v1.7.0
     container_name: node-exporter
-    network_mode: "host"        # Чтобы собирать метрики ОС напрямую
-    pid: "host"
-    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoring
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.1
