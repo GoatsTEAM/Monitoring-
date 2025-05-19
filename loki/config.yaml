@@ -5,9 +5,7 @@ server:
   log_level: info
 
 common:
-  # общая директория для всех компонентов
   path_prefix: /loki
-  # ring + репликация для одного узла
   ring:
     kvstore:
       store: inmemory
@@ -15,10 +13,9 @@ common:
 
 schema_config:
   configs:
-    - from: "2023-01-01"
-      # в локальном режиме для индекса shipper: boltdb-shipper или tsdb
-      store: tsdb                 # ← или boltdb-shipper
-      object_store: filesystem    # FS для хранения промежуточных таблиц индекса
+    - from: 2023-01-01
+      store: tsdb
+      object_store: filesystem
       schema: v11
       index:
         prefix: index_
@@ -26,4 +23,4 @@ schema_config:
 
 storage_config:
   filesystem:
-    directory: /loki/chunks     # директория для чанков
+    directory: /loki

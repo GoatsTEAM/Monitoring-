@@ -3,23 +3,19 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  # 1) Scrape самого Prometheus'а
-  - job_name: 'prometheus'
+  - job_name: prometheus
     static_configs:
       - targets: ['prometheus:9090']
 
-  # 2) Scrape Node Exporter (метрики хоста)
   - job_name: node_exporter
     static_configs:
       - targets: ['node-exporter:9100']
 
-  # 3) Scrape cAdvisor (метрики Docker-контейнеров)
-  - job_name: 'cadvisor'
+  - job_name: cadvisor
     static_configs:
       - targets: ['cadvisor:8080']
 
-  # 4) Scrape Blackbox Exporter (метрики HTTP, TCP и ICMP)
-  - job_name: 'fastapi_app'
+  - job_name: fastapi_app
     metrics_path: /metrics
     static_configs:
       - targets: ['fastapi_app:80']
