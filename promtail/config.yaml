@@ -8,21 +8,27 @@ clients:
 positions:
   filename: /tmp/positions.yaml
 
+############################################################
+# 1) обычные системные логи
+############################################################
 scrape_configs:
   - job_name: varlogs
     static_configs:
-      - labels:
+      - targets:            # <- обязателен, но значение не важно
+          - localhost
+        labels:
           job: varlogs
           __path__: /var/log/*.log
 
+############################################################
+# 2) логи ВСЕХ Docker-контейнеров
+############################################################
   - job_name: docker
-    docker_sd_configs:
-      - host: unix:///var/run/docker.sock
-    relabel_configs:
-      - source_labels: [__meta_docker_container_log_stream]
-        regex: stdout|stderr
-        action: keep
-      - source_labels: [__meta_docker_container_name]
-        target_label: container
-      - source_labels: [__path__]
-        target_label: __path__
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: docker
+          __path__: /var/lib/docker/containers/*/*.log  # 👈 главный путь
+    pipeline_stages:          # распознаём json-логи docker
+      - docker: {}

@@ -68,15 +68,14 @@ services:
 # ────────────────────────────────────────────────
   promtail:
     image: grafana/promtail:2.8.2
-    container_name: promtail
     command: -config.file=/etc/promtail/config.yaml
     volumes:
-      - ./promtail:/etc/promtail:ro           # ← монтируем ПАПКУ!
+      - ./promtail/config.yaml:/etc/promtail/config.yaml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro   # важно
       - /var/log:/var/log:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
     networks: [monitoring]
+    restart: unless-stopped
 
 # ────────────────────────────────────────────────
 # Grafana
